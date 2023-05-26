@@ -13,7 +13,7 @@
         <div class="w-full flex items-center justify-between p-3 mb-5">
             <div class="flex items-center">
                 <form action="#" method="get">
-                    <div class="relative  ">
+                    <div class="relative mr-3 ">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -27,14 +27,13 @@
                             placeholder="Rechercher produit">
                     </div>
                 </form>
-                {{-- <form action="{{ route('etatS.index') }}" method="GET" class="flex ml-4">
-                    <select name="date_enter" id="yearFilter" onchange="handleYearFilter(this)" style="display: block; padding: 0.5rem; color: grey; font-size: 0.875rem; border: 1px solid #cccccc; border-radius: 0.375rem; width: 14rem; outline: none;">
-                        <option style="color: grey;" value="">Choisir l'année</option>
-                        @foreach ($dateOptions as $option)
-                            <option style="color: grey;" value="{{ $option }}">{{ $option }}</option>
-                        @endforeach
-                    </select>
-                </form> --}}
+               
+                <select id="year-filter" 
+                style="display: block; padding: 0.5rem; color: grey; font-size: 0.875rem; border: 1px solid #cccccc; border-radius: 0.375rem; width: 14rem; outline: none;">
+                    <option hidden value="">Choisir l'année</option>
+                    <option value="">toutes les années</option>
+                </select>
+                
             </div>
             <div>
                 <a href="#" id="dropdownActionButton" onclick="exportTable()">
@@ -168,35 +167,47 @@
             });
         });
     </script>
-    {{-- <script>
-        function handleYearFilter(selectElement) {
-            if (selectElement.value === '') {
-                window.location.href = "{{ route('etatS.index') }}";
-            } else {
-                selectElement.form.submit();
-            }
-        }
+    
+    <script>
+        const yearFilter = document.getElementById('year-filter');
+        const tableRows = document.querySelectorAll('#my-table tbody tr');
+        const yearsSet = new Set(); // Use a Set to store unique years
+    
+        // Extract unique years from table data
+        tableRows.forEach(function(row) {
+            const dateCell = row.querySelector('td:nth-child(3)');
+            const rowYear = dateCell.textContent.trim().split('-')[0];
+            yearsSet.add(rowYear);
+        });
+    
+        // Generate select options based on unique years
+        yearsSet.forEach(function(year) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearFilter.appendChild(option);
+        });
+    
+        yearFilter.addEventListener('change', function() {
+            const selectedYear = this.value;
+    
+            tableRows.forEach(function(row) {
+                const dateCell = row.querySelector('td:nth-child(3)');
+                const rowYear = dateCell.textContent.trim().split('-')[0];
+    
+                if (selectedYear === '' || rowYear === selectedYear) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
     </script>
+    
     
   
     <script>
-        //filter par l'année
-        const yearFilter = document.getElementById('yearFilter');
-        yearFilter.addEventListener('input', filterByYear);
-    
-        function filterByYear() {
-            const year = document.getElementById('yearFilter').value;
-            const rows = document.querySelectorAll('#my-table tbody tr');
-            rows.forEach(row => {
-                const date = row.querySelector('td:nth-child(3)').textContent;
-                const yearFromRow = new Date(date).getFullYear();
-                if (yearFromRow != year) {
-                    row.style.display = 'none';
-                } else {
-                    row.style.display = '';
-                }
-            });
-        }
+        
         //export table
     
         function exportTable() {
@@ -242,7 +253,7 @@
             // Trigger a click event on the anchor element to download the file
             anchor.click();
         }
-    </script> --}}
+    </script>
     
 
 

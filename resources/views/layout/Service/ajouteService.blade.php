@@ -46,7 +46,7 @@
                         <div class="flex items-center justify-center pt-5">
                             <button type="submit"
                                 class=" hover:shadow-form inline-flex items-center text-gray-100 bg-green-700 focus:ring-4 font-medium rounded-lg text-sm py-3 px-8 ">
-                                Submite
+                                envoyer
                             </button>
                         </div>
                     </form>

@@ -255,46 +255,7 @@
             }
         }
 
-        // document.getElementById('dropdownActionButton').addEventListener('click', function() {
-        //     var checkboxes = document.querySelectorAll('input[name="weekly"]:checked');
-
-        //     checkboxes.forEach(function(checkbox) {
-        //         var productId = checkbox.id.replace('checkbox-item-', '');
-        //         var productName = checkbox.nextElementSibling.innerText;
-        //         var quantityLabel = checkbox.nextElementSibling.nextElementSibling.innerText;
-        //         var maxQuantity = parseInt(quantityLabel);
-
-        //         if (isProductAdded(productId)) {
-        //             var existingRow = document.querySelector(
-        //                 `#dataTable tbody tr[data-product-id="${productId}"]`);
-        //             existingRow.parentNode.removeChild(existingRow);
-        //             addedProducts.splice(addedProducts.indexOf(productId), 1);
-        //         } else {
-        //             var row = document.createElement('tr');
-        //             row.setAttribute('data-product-id', productId);
-        //             row.innerHTML = `
-    //                 <td class="px-6 py-4 text-gray-900 whitespace-nowrap">
-    //                     <div class="text-base font-semibold">${productName}</div>
-    //                 </td>
-    //                 <td class="px-4 py-3">
-    //                     ${quantityLabel}
-    //                 </td>
-    //                 <td class="px-4 py-3 flex items-center">
-    //                     <input max="${maxQuantity}" id="qte_d" type="number" min="0"
-    //                         class="w-24 p-2 border contrast-more:border-slate-400" />
-    //                 </td>
-    //             `;
-
-        //             var tableBody = document.querySelector('#dataTable tbody');
-        //             tableBody.appendChild(row);
-
-        //             addedProducts.push(productId);
-
-
-
-        //         }
-        //     });
-        // });
+     
         document.getElementById('dropdownActionButton').addEventListener('click', function() {
             var checkboxes = document.querySelectorAll('input[name="weekly"]:checked');
 

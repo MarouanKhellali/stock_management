@@ -33,58 +33,58 @@
                     </a>
                 </div>
             </div>
-            <div
-                class="w-full grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 justify-between py-4 px-2 ">
-                @foreach ($services as $service)
-                    <div id="card-body" class="w-full max-w-sm border border-gray-200 rounded-lg hover:shadow-lg ">
-                        <div class="flex justify-end px-4 pt-2">
-                            <button id="dropdownButton" data-dropdown-toggle="dropdown"
-                                class="inline-block text-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm p-1.5"
-                                type="button">
-                                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                    </path>
-                                </svg>
-                            </button>
-                            <div id="dropdown"
-                                class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-44">
-                                <ul class="py-2" aria-labelledby="dropdownButton">
-                                    <li>
-                                        <a href="{{ url('/services/' . $service[0]->id_service) . '/edit' }}"
-                                            class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100 ">Modifier</a>
-                                    </li>
-                                    <li>
-
-                                        <form method="post" action="  {{ url('/services/' . $service[0]->id_service) }} ">
-                                            @csrf
-                                            {{ method_field('DELETE') }}
-                                            <button type="submit" title="Delete P"
-                                                onclick=" return confirm('confirm delete ? ') " type="button"
-                                                class="w-full   px-4 py-2 text-sm text-red-600 hover:bg-gray-100 ">
-                                                <span class="flex">Supprimer</span>
-                                            </button>
-
-                                        </form>
-                                    </li>
-                                </ul>
+            <div class="w-full grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 justify-between py-4 px-2">
+                @foreach ($services as $serviceGroup)
+                    @foreach ($serviceGroup as $service)
+                        <div id="card-body" class="w-full max-w-sm border border-gray-200 rounded-lg hover:shadow-lg">
+                            <div class="flex justify-end px-4 pt-2">
+                                <button id="dropdownButton{{ $service->id_service }}" data-dropdown-toggle="dropdown{{ $service->id_service }}"
+                                    class="inline-block text-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm p-1.5"
+                                    type="button">
+                                    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <div id="dropdown{{ $service->id_service }}"
+                                    class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-44">
+                                    <ul class="py-2" aria-labelledby="dropdownButton{{ $service->id_service }}">
+                                        <li>
+                                            <a href="{{ url('/services/' . $service->id_service . '/edit') }}"
+                                                class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100">Modifier</a>
+                                        </li>
+                                        <li>
+                                            <form method="post" action="{{ url('/services/' . $service->id_service) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" title="Delete"
+                                                    onclick="return confirm('Confirm delete?')"
+                                                    class="w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                                    <span class="flex">Supprimer</span>
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center pb-4">
+                                <h5 class="text-xl font-medium text-gray-900 mb-2">{{ $service->nom_service }}</h5>
+                                <div class="flex mt-4 space-x-3 md:mt-6">
+                                    <a href="{{ url('/services/' . $service->id_service) }}"
+                                        class="inline-flex items-center px-4 py-2 text-white border-yellow-700 bg-yellow-500 hover:bg-yellow-400 focus:ring-1 focus:outline-none focus:ring-yellow-500 font-medium rounded-lg text-sm text-center">
+                                        View
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex flex-col items-center pb-4">
-                            <h5 class="text-xl font-medium text-gray-900 mb-2">{{ $service[0]->nom_service }}</h5>
-
-                            <div class="flex mt-4 space-x-3 md:mt-6">
-                                <a href="{{ url('/services/' . $service[0]->id_service) }} }}"
-                                    class="inline-flex items-center px-4 py-2 text-white border-yellow-700 bg-yellow-500 hover:bg-yellow-400 focus:ring-1 focus:outline-none focus:ring-yellow-500 font-medium rounded-lg text-sm text-center">
-                                    View
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
+                    @endforeach
                 @endforeach
             </div>
+            
+            
+            
         </div>
     </div>
     <script>
