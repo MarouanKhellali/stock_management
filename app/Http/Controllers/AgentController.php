@@ -14,7 +14,8 @@ class AgentController extends Controller
      */
 
     public function index()
-    {
+    {   
+        
         $agents = Agent::orderBy('id_agent', 'desc')->get();
         return view('layout.Agent.agents', compact('agents'));
     }

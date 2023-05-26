@@ -53,7 +53,7 @@
                                 <ul class="py-2" aria-labelledby="dropdownButton">
                                     <li>
                                         <a href="{{ url('/services/' . $service[0]->id_service) . '/edit' }}"
-                                            class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100 ">Edit</a>
+                                            class="block px-4 py-2 text-sm text-green-700 hover:bg-gray-100 ">Modifier</a>
                                     </li>
                                     <li>
 
@@ -63,7 +63,7 @@
                                             <button type="submit" title="Delete P"
                                                 onclick=" return confirm('confirm delete ? ') " type="button"
                                                 class="w-full   px-4 py-2 text-sm text-red-600 hover:bg-gray-100 ">
-                                                <span class="flex">Delet</span>
+                                                <span class="flex">Supprimer</span>
                                             </button>
 
                                         </form>

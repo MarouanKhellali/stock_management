@@ -1,6 +1,6 @@
 @extends('/layout.layout')
 
-@section('title', 'Edite produit')
+@section('title', 'Modifier produit')
 
 @section('content')
     <div class="border-2 rounded-lg shadow-lg bg-white">
@@ -8,7 +8,7 @@
             <div class="flex items-center justify-center mb-5 ">
                 <div class=" w-full p-3 ">
                     <div class=" px-4 ">
-                        <h1 class="text-2xl font-bold antialiased pb-3 pt-6 text-green-600">Edite Produit</h1>
+                        <h1 class="text-2xl font-bold antialiased pb-3 pt-6 text-green-600">Modifier Produit</h1>
                     </div>
                     <form action="{{ url('produits/' . $produits->id_produit) }}" method="post">
 

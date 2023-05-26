@@ -5,7 +5,7 @@
 @section('content')
 
     {{-- Add service & Agent & Produits --}}
-    <div id="initialView" style="display: block;">
+    <div class="pageini" id="initialView" style="display: block;">
         <div class="border-2 rounded-lg shadow-lg bg-white ">
             <div class="relative overflow-x-auto  p-3 grid   ">
                 {{-- title --}}
@@ -236,7 +236,7 @@
             }
         }
 
-        
+
 
         var addedProducts = []; // Array to store added product IDs
         var addedQts = []; // Array to store added product IDs
@@ -255,6 +255,46 @@
             }
         }
 
+        // document.getElementById('dropdownActionButton').addEventListener('click', function() {
+        //     var checkboxes = document.querySelectorAll('input[name="weekly"]:checked');
+
+        //     checkboxes.forEach(function(checkbox) {
+        //         var productId = checkbox.id.replace('checkbox-item-', '');
+        //         var productName = checkbox.nextElementSibling.innerText;
+        //         var quantityLabel = checkbox.nextElementSibling.nextElementSibling.innerText;
+        //         var maxQuantity = parseInt(quantityLabel);
+
+        //         if (isProductAdded(productId)) {
+        //             var existingRow = document.querySelector(
+        //                 `#dataTable tbody tr[data-product-id="${productId}"]`);
+        //             existingRow.parentNode.removeChild(existingRow);
+        //             addedProducts.splice(addedProducts.indexOf(productId), 1);
+        //         } else {
+        //             var row = document.createElement('tr');
+        //             row.setAttribute('data-product-id', productId);
+        //             row.innerHTML = `
+    //                 <td class="px-6 py-4 text-gray-900 whitespace-nowrap">
+    //                     <div class="text-base font-semibold">${productName}</div>
+    //                 </td>
+    //                 <td class="px-4 py-3">
+    //                     ${quantityLabel}
+    //                 </td>
+    //                 <td class="px-4 py-3 flex items-center">
+    //                     <input max="${maxQuantity}" id="qte_d" type="number" min="0"
+    //                         class="w-24 p-2 border contrast-more:border-slate-400" />
+    //                 </td>
+    //             `;
+
+        //             var tableBody = document.querySelector('#dataTable tbody');
+        //             tableBody.appendChild(row);
+
+        //             addedProducts.push(productId);
+
+
+
+        //         }
+        //     });
+        // });
         document.getElementById('dropdownActionButton').addEventListener('click', function() {
             var checkboxes = document.querySelectorAll('input[name="weekly"]:checked');
 
@@ -263,6 +303,11 @@
                 var productName = checkbox.nextElementSibling.innerText;
                 var quantityLabel = checkbox.nextElementSibling.nextElementSibling.innerText;
                 var maxQuantity = parseInt(quantityLabel);
+
+
+
+
+
 
                 if (isProductAdded(productId)) {
                     var existingRow = document.querySelector(
@@ -273,26 +318,39 @@
                     var row = document.createElement('tr');
                     row.setAttribute('data-product-id', productId);
                     row.innerHTML = `
-                        <td class="px-6 py-4 text-gray-900 whitespace-nowrap">
-                            <div class="text-base font-semibold">${productName}</div>
-                        </td>
-                        <td class="px-4 py-3">
-                            ${quantityLabel}
-                        </td>
-                        <td class="px-4 py-3 flex items-center">
-                            <input max="${maxQuantity}" id="qte_d" type="number" min="0"
-                                class="w-24 p-2 border contrast-more:border-slate-400" />
-                        </td>
-                    `;
+                <td class="px-6 py-4 text-gray-900 whitespace-nowrap">
+                    <div class="text-base font-semibold">${productName}</div>
+                </td>
+                <td class="px-4 py-3">
+                    ${quantityLabel}
+                </td>
+                <td class="px-4 py-3 flex items-center">
+                    <input max="${maxQuantity}" id="qte_d" type="number" min="0" class="w-24 p-2 border contrast-more:border-slate-400" />
+                </td>
+            `;
 
                     var tableBody = document.querySelector('#dataTable tbody');
                     tableBody.appendChild(row);
 
                     addedProducts.push(productId);
-
                 }
             });
+
+            // Check if any checkboxes are checked
+            var isAnyCheckboxChecked = checkboxes.length > 0;
+
+            // Show alert if no checkboxes are checked
+            if (!isAnyCheckboxChecked) {
+                event.preventDefault();
+                alert("Vous devez remplir les informations.");
+                document.getElementById('tableView').style.display = 'none';
+                document.querySelector('.pageini').style.display = 'block';
+            } else {
+                document.getElementById('tableView').style.display = 'block';
+                document.querySelector('.pageini').style.display = 'none';
+            }
         });
+
 
         document.getElementById('serviceSelect').addEventListener('change', function() {
             var serviceId = this.value; // Get the selected service ID
@@ -355,6 +413,33 @@
                 }
                 console.log(qte_dValue);
 
+                // Get the maximum quantity for the current product
+                var maxQuantity = parseInt(qte_dInputs[j].getAttribute('max'));
+
+                if (parseInt(qte_dValue) > maxQuantity ) {
+                    alert('La Quantité demendé dépasse la quantité disponible.');
+                    document.getElementById('alertContainer').style.display = 'none';
+                    document.getElementById('tableView').style.display = 'block';
+                    return; // Abort further processing if quantity exceeds the limit
+                }
+                if (parseInt(qte_dValue) === 0 ) {
+                    // Show the div "tableView"
+                   
+                    alert("la case QTE demendé n'est pas accepter la valeur 0");
+
+                    document.getElementById('alertContainer').style.display = 'none';
+                    document.getElementById('tableView').style.display = 'block';
+                    return; // Stop further processing
+                }
+                if ( qte_dValue === '') {
+                    // Show the div "tableView"
+                    alert('vous devez remplire la case QTE demendé ');
+                    
+
+                    document.getElementById('alertContainer').style.display = 'none';
+                    document.getElementById('tableView').style.display = 'block';
+                    return; // Stop further processing
+                }
                 // Set the request URL and method
                 xhr.open('POST', '/updateProduct', true);
 
@@ -409,9 +494,12 @@
 
     <script>
         document.getElementById('printPageButton').addEventListener('click', function() {
+            var currentDate = new Date();
+            // Format the date as desired (e.g., YYYY-MM-DD)
+            var formattedDate = currentDate.toISOString().slice(0, 10);
             // Set the options for html2pdf
             var options = {
-                filename: 'demande_decharge.pdf',
+                filename: 'demande_decharge_' + formattedDate + '.pdf',
                 image: {
                     type: 'jpeg',
                     quality: 0.98
